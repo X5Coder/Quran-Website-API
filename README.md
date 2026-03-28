@@ -23,9 +23,25 @@
 
 ---
 
-<a href="https://t.me/+G6KC5v5Rrd1hNjU0" target="_blank">
-  <button>انضم إلى جروب شادو</button>
-</a>
+<div style="text-align: center; margin: 30px 0;">
+  <a href="https://t.me/+G6KC5v5Rrd1hNjU0" target="_blank" style="text-decoration: none;">
+    <button style="
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    "
+    onmouseover="this.style.transform='scale(1.05)'"
+    onmouseout="this.style.transform='scale(1)'">
+      🚀 انضم إلى جروب شادو
+    </button>
+  </a>
+</div>
 
 ---
 
