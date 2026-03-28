@@ -2,127 +2,465 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>راديو القرآن | بث مباشر</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>راديو القرآن الكريم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            background: white;
+            color: black;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            background: #eee;
+            border: 1px solid #999;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 12px;
+            margin-top: 8px;
+            white-space: pre-wrap;
+            font-size: 11px;
+            border: 1px solid #ccc;
+            direction: ltr;
+            text-align: left;
+            line-height: 1.5;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+        .settings-content {
+            margin-top: 10px;
+            padding: 12px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            display: none;
+        }
+        .settings-content.show {
+            display: block;
+        }
+        .setting-item {
+            margin-bottom: 15px;
+        }
+        .setting-link-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+        .link-url {
+            color: #00c;
+            text-decoration: underline;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            font-size: 11px;
+            word-break: break-all;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .info-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+        .info-table td:first-child {
+            font-weight: bold;
+            width: 100px;
+        }
+        .flex {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .progress-container {
+            margin: 15px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+            cursor: default;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #666;
+            width: 0%;
+            pointer-events: none;
+        }
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-top: 5px;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            direction: ltr;
+        }
+        .loading {
+            padding: 20px;
+            text-align: center;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+        .error {
+            color: red;
+            padding: 10px;
+            border: 1px solid red;
+            background: #ffe0e0;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+        hr {
+            margin: 12px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+        .footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <div class="glass-container">
-        <!-- Header -->
-        <div class="header">
-            <h1>راديو القرآن</h1>
-            <button id="settingsBtn" class="settings-glass">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04Z"/>
-                </svg>
-            </button>
+<div>
+    <button id="settingsBtn">⚙️ الإعدادات</button>
+    
+    <div id="settingsContent" class="settings-content">
+        <div class="setting-item">
+            <div><strong>🔗 رابط API البث:</strong></div>
+            <div class="setting-link-group">
+                <a href="#" id="apiLink" target="_blank" class="link-url"></a>
+                <button class="copyBtn" data-target="apiUrl">نسخ</button>
+            </div>
+            <input type="text" id="apiUrl" style="display:none;" readonly>
         </div>
-
-        <!-- Settings Panel -->
-        <div id="settingsContent" class="settings-glass-panel">
-            <div class="settings-header">
-                <span class="settings-title">الإعدادات</span>
-                <button class="close-settings" id="closeSettings">✕</button>
+        <div class="setting-item">
+            <div><strong>📖 رابط قائمة السور:</strong></div>
+            <div class="setting-link-group">
+                <a href="https://jsonkeeper.com/b/P07SJ" target="_blank" class="link-url">jsonkeeper.com/b/P07SJ</a>
+                <button class="copyBtn" data-target="surahList">نسخ</button>
             </div>
-            <div class="setting-item">
-                <div class="setting-label">🔗 API البث المباشر</div>
-                <div class="setting-link-group">
-                    <a href="#" id="apiLink" target="_blank" class="glass-link"></a>
-                    <button class="glass-copy" data-target="apiUrl">نسخ</button>
-                </div>
-                <input type="text" id="apiUrl" class="hidden-input" readonly>
-            </div>
-            <div class="setting-item">
-                <div class="setting-label">📖 قائمة السور</div>
-                <div class="setting-link-group">
-                    <a href="https://jsonkeeper.com/b/P07SJ" target="_blank" class="glass-link">jsonkeeper.com/b/P07SJ</a>
-                    <button class="glass-copy" data-target="surahListUrl">نسخ</button>
-                </div>
-                <input type="text" id="surahListUrl" class="hidden-input" readonly value="https://jsonkeeper.com/b/P07SJ">
-            </div>
-            <div class="setting-item">
-                <div class="setting-label">🐙 GitHub</div>
-                <div class="setting-link-group">
-                    <a href="https://github.com/X5Coder/Quran-Website-API" target="_blank" class="glass-link">github.com/X5Coder/Quran-Website-API</a>
-                    <button class="glass-copy" data-target="githubUrl">نسخ</button>
-                </div>
-                <input type="text" id="githubUrl" class="hidden-input" readonly value="https://github.com/X5Coder/Quran-Website-API">
-            </div>
+            <input type="text" id="surahList" style="display:none;" readonly value="https://jsonkeeper.com/b/P07SJ">
         </div>
-
-        <!-- Loading -->
-        <div id="loading" class="loading-glass">
-            <div class="glass-spinner"></div>
-            <p>جاري تحميل البث...</p>
-        </div>
-        
-        <!-- Main Content -->
-        <div id="content" class="hidden">
-            <!-- Info Cards - iOS Style -->
-            <div class="cards-grid">
-                <div class="glass-card">
-                    <div class="card-icon">📖</div>
-                    <div class="card-label">السورة</div>
-                    <div class="card-value" id="surah">-</div>
-                </div>
-                <div class="glass-card">
-                    <div class="card-icon">🎙️</div>
-                    <div class="card-label">القارئ</div>
-                    <div class="card-value" id="reader">-</div>
-                </div>
-                <div class="glass-card">
-                    <div class="card-icon">🔢</div>
-                    <div class="card-label">رقم السورة</div>
-                    <div class="card-value" id="surahNum">-</div>
-                </div>
-                <div class="glass-card">
-                    <div class="card-icon">⏱️</div>
-                    <div class="card-label">التقدم</div>
-                    <div class="card-value" id="currentTime">00:00</div>
-                    <div class="card-sub" id="duration">00:00</div>
-                </div>
+        <div class="setting-item">
+            <div><strong>🐙 رابط المشروع:</strong></div>
+            <div class="setting-link-group">
+                <a href="https://github.com/X5Coder/Quran-Website-API" target="_blank" class="link-url">https://github.com/X5Coder/Quran-Website-API</a>
+                <button class="copyBtn" data-target="githubUrl">نسخ</button>
             </div>
-            
-            <!-- Progress Bar - iOS Style -->
-            <div class="progress-section">
-                <div class="progress-bar-glass" id="progressBar">
-                    <div class="progress-fill-glass" id="progressFill"></div>
-                </div>
-                <div class="time-labels">
-                    <span id="currentTimeLabel">00:00</span>
-                    <span id="durationLabel">00:00</span>
-                </div>
-            </div>
-            
-            <!-- Controls - iOS Style -->
-            <div class="controls-glass">
-                <button id="playBtn" class="glass-action play-action">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
-                    </svg>
-                </button>
-                <button id="muteBtn" class="glass-action">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- JSON Data -->
-            <div class="json-glass">
-                <div class="json-header-glass">
-                    <span>📋 البيانات الخام</span>
-                </div>
-                <pre id="jsonData"></pre>
-            </div>
+            <input type="text" id="githubUrl" style="display:none;" readonly value="https://github.com/X5Coder/Quran-Website-API">
         </div>
     </div>
 
-    <audio id="audio"></audio>
-    <script src="script.js"></script>
+    <div id="loading" class="loading">⏳ جاري تحميل البث...</div>
+    
+    <div id="content" class="hidden">
+        <table class="info-table">
+            <tr><td>📡 بيانات الاتصال</td><td id="connectionStatus">🟢 متصل</td></tr>
+            <tr><td>📖 السورة</td><td id="surah">-</td></tr>
+            <tr><td>🎙️ القارئ</td><td id="reader">-</td></tr>
+            <tr><td>🔢 رقم السورة</td><td id="surahNum">-</td></tr>
+            <tr><td>⏱️ مدة السورة</td><td id="duration">-</td></tr>
+        </table>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="time-row">
+                <span id="currentTime">00:00</span>
+                <span id="durationTime">00:00</span>
+            </div>
+        </div>
+        
+        <div class="flex">
+            <button id="playBtn">▶ تشغيل</button>
+            <button id="muteBtn">🔊 كتم</button>
+        </div>
+        
+        <hr>
+        
+        <div><strong>📋 البيانات الخام (JSON):</strong></div>
+        <pre id="jsonData"></pre>
+    </div>
+    
+    <div id="error" class="error hidden">❌ خطأ في الاتصال</div>
+    
+    <div class="footer">
+        راديو قرآن كريم - صدقة جارية على روحي - المطور كريم
+    </div>
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzod3HSUKOjxabBDeovU5UfVAE-bnb5DptND0MBmhIBL_sb01MOtaBStNGt9dhybHwu/exec?key=KIMO";
+
+const loadingDiv = document.getElementById('loading');
+const contentDiv = document.getElementById('content');
+const errorDiv = document.getElementById('error');
+const connectionStatusSpan = document.getElementById('connectionStatus');
+const surahSpan = document.getElementById('surah');
+const readerSpan = document.getElementById('reader');
+const surahNumSpan = document.getElementById('surahNum');
+const durationSpan = document.getElementById('duration');
+const currentTimeSpan = document.getElementById('currentTime');
+const durationTimeSpan = document.getElementById('durationTime');
+const progressFill = document.getElementById('progressFill');
+const jsonPre = document.getElementById('jsonData');
+const playBtn = document.getElementById('playBtn');
+const muteBtn = document.getElementById('muteBtn');
+const audio = document.getElementById('audio');
+
+let currentData = null;
+let isMuted = false;
+let hasStarted = false;
+let isUpdating = false;
+
+function toSeconds(t) {
+    if (!t) return 0;
+    let p = t.split(':').map(Number);
+    if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2];
+    if (p.length === 2) return p[0]*60 + p[1];
+    return 0;
+}
+
+function toTime(sec) {
+    if (isNaN(sec) || sec < 0) return "00:00";
+    let h = Math.floor(sec / 3600);
+    let m = Math.floor((sec % 3600) / 60);
+    let s = Math.floor(sec % 60);
+    if (h > 0) return `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function updateProgress() {
+    if (audio && currentData && !isNaN(audio.currentTime)) {
+        let currentSec = audio.currentTime;
+        let durationSec = toSeconds(currentData.duration);
+        let percent = durationSec > 0 ? (currentSec / durationSec) * 100 : 0;
+        progressFill.style.width = percent + '%';
+        currentTimeSpan.innerText = toTime(currentSec);
+        durationTimeSpan.innerText = currentData.duration;
+    }
+}
+
+async function fetchData() {
+    try {
+        let res = await fetch(API_URL + "&_=" + Date.now());
+        if (!res.ok) throw new Error();
+        let json = await res.json();
+        if (json.error) throw new Error();
+        return {
+            ok: true,
+            num: json.رقم_السورة || 0,
+            reader: json.اسم_القارئ || "غير معروف",
+            surah: json.اسم_السورة || "سورة",
+            url: json.رابط_السورة || "",
+            duration: json.مدة_السورة || "00:00",
+            current: json.الوقت_الحالي_للسورة || "00:00"
+        };
+    } catch(e) {
+        return { ok: false };
+    }
+}
+
+function updateUI(data) {
+    connectionStatusSpan.innerText = "🟢 متصل";
+    surahSpan.innerText = data.surah;
+    readerSpan.innerText = data.reader;
+    surahNumSpan.innerText = data.num;
+    durationSpan.innerText = data.duration;
+    durationTimeSpan.innerText = data.duration;
+    
+    let now = (audio && !isNaN(audio.currentTime)) ? audio.currentTime : toSeconds(data.current);
+    currentTimeSpan.innerText = toTime(now);
+    
+    let percent = toSeconds(data.duration) > 0 ? (now / toSeconds(data.duration)) * 100 : 0;
+    progressFill.style.width = percent + '%';
+    
+    let jsonObj = {
+        "رقم_السورة": data.num,
+        "اسم_القارئ": data.reader,
+        "اسم_السورة": data.surah,
+        "رابط_الصوت": data.url,
+        "مدة_السورة": data.duration,
+        "الوقت_الحالي": data.current
+    };
+    jsonPre.innerText = JSON.stringify(jsonObj, null, 2);
+}
+
+function syncAudio() {
+    if (!audio || !currentData) return;
+    let serverTime = toSeconds(currentData.current);
+    if (serverTime > 0 && Math.abs(audio.currentTime - serverTime) > 1.5) {
+        audio.currentTime = serverTime;
+        updateProgress();
+    }
+}
+
+let timeLoopRunning = false;
+function startTimeLoop() {
+    if (timeLoopRunning) return;
+    timeLoopRunning = true;
+    function update() {
+        updateProgress();
+        requestAnimationFrame(update);
+    }
+    update();
+}
+
+async function refresh() {
+    if (isUpdating) return;
+    isUpdating = true;
+    
+    let result = await fetchData();
+    
+    if (result.ok) {
+        let newData = {
+            num: result.num,
+            reader: result.reader,
+            surah: result.surah,
+            url: result.url,
+            duration: result.duration,
+            current: result.current
+        };
+        
+        let wasPlaying = hasStarted && !audio.paused;
+        let surahChanged = !currentData || currentData.surah !== newData.surah || currentData.url !== newData.url;
+        
+        if (surahChanged) {
+            currentData = newData;
+            if (audio.src !== newData.url) {
+                audio.src = newData.url;
+            }
+            if (audio.readyState >= 2) {
+                syncAudio();
+            }
+            if (wasPlaying && hasStarted) {
+                audio.play().catch(() => {});
+            }
+        } else {
+            currentData = newData;
+            syncAudio();
+        }
+        
+        updateUI(currentData);
+        
+        loadingDiv.classList.add('hidden');
+        contentDiv.classList.remove('hidden');
+        errorDiv.classList.add('hidden');
+    } else {
+        connectionStatusSpan.innerText = "🔴 غير متصل";
+        if (!currentData) {
+            loadingDiv.classList.add('hidden');
+            errorDiv.classList.remove('hidden');
+            contentDiv.classList.add('hidden');
+        }
+    }
+    
+    isUpdating = false;
+}
+
+playBtn.onclick = () => {
+    if (audio && currentData && currentData.url) {
+        if (isMuted) {
+            audio.volume = 1;
+            isMuted = false;
+            muteBtn.innerText = "🔊 كتم";
+        }
+        audio.play().then(() => {
+            hasStarted = true;
+            playBtn.style.display = 'none';
+        }).catch(() => {
+            setTimeout(() => audio.play().catch(() => {}), 100);
+        });
+    }
+};
+
+muteBtn.onclick = () => {
+    if (audio) {
+        if (!isMuted) {
+            audio.volume = 0;
+            isMuted = true;
+            muteBtn.innerText = "🔇 تشغيل الصوت";
+        } else {
+            audio.volume = 1;
+            isMuted = false;
+            muteBtn.innerText = "🔊 كتم";
+        }
+    }
+};
+
+audio.addEventListener('ended', () => {
+    refresh();
+});
+
+audio.addEventListener('canplay', () => {
+    syncAudio();
+});
+
+audio.addEventListener('timeupdate', () => {
+    updateProgress();
+});
+
+function setupSettings() {
+    let btn = document.getElementById('settingsBtn');
+    let panel = document.getElementById('settingsContent');
+    let apiLink = document.getElementById('apiLink');
+    let apiInput = document.getElementById('apiUrl');
+    
+    apiInput.value = API_URL;
+    apiLink.href = API_URL;
+    apiLink.innerText = API_URL.length > 55 ? API_URL.substring(0, 52) + '...' : API_URL;
+    
+    btn.onclick = () => panel.classList.toggle('show');
+    
+    document.querySelectorAll('.copyBtn').forEach(b => {
+        b.onclick = () => {
+            let id = b.getAttribute('data-target');
+            let input = document.getElementById(id);
+            if (input) {
+                navigator.clipboard.writeText(input.value);
+                let old = b.innerText;
+                b.innerText = '✓';
+                setTimeout(() => b.innerText = old, 1000);
+            }
+        };
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !panel.contains(e.target)) {
+            panel.classList.remove('show');
+        }
+    });
+}
+
+async function init() {
+    setupSettings();
+    startTimeLoop();
+    await refresh();
+    setInterval(refresh, 25000);
+}
+
+init();
+</script>
 </body>
 </html>
