@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Almarai', 'Cairo', 'Tajawal', sans-serif;
+    background: #f5f3ef;
+    color: #2c241a;
+    min-height: 100vh;
+    padding: 30px 24px;
+}
+
+.main {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ========== الإعدادات ========== */
+.settings-panel {
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.settings-toggle {
+    background: #e8e2d8;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3a2c1f;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.settings-toggle:hover {
+    background: #ddd6ca;
+    transform: scale(0.98);
+}
+
+.settings-content {
+    margin-top: 16px;
+    padding: 24px;
+    background: #fefcf8;
+    border-radius: 28px;
+    display: none;
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.settings-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.setting-item {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e8e2d8;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.setting-label {
+    font-weight: 700;
+    font-size: 14px;
+    color: #5e4b34;
+    margin-bottom: 12px;
+}
+
+.setting-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.link-url {
+    color: #5e4b34;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 12px;
+    background: #f0ebe3;
+    padding: 8px 16px;
+    border-radius: 40px;
+    word-break: break-all;
+    flex: 1;
+    transition: all 0.2s;
+}
+
+.link-url:hover {
+    background: #e8e2d8;
+    color: #2c241a;
+}
+
+.copy-btn {
+    background: #e8e2d8;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.copy-btn:hover {
+    background: #ddd6ca;
+}
+
+.hidden-input {
+    display: none;
+}
+
+/* ========== شاشة تحميل ========== */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #e8e2d8;
+    border-top-color: #8b7355;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-weight: 600;
+    color: #8b7355;
+    font-size: 15px;
+}
+
+/* ========== شبكة المعلومات ========== */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.info-card {
+    background: #fefcf8;
+    padding: 20px 16px;
+    border-radius: 24px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.info-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9b8a74;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2c241a;
+    line-height: 1.3;
+}
+
+.info-value.small {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8b7355;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+/* ========== أزرار التحكم ========== */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0 32px;
+}
+
+.control-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 60px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #e8e2d8;
+    color: #3a2c1f;
+}
+
+.control-btn:hover {
+    background: #ddd6ca;
+    transform: scale(0.97);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.play-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.mute-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ========== قسم JSON ========== */
+.json-section {
+    margin-top: 24px;
+}
+
+.json-header {
+    font-weight: 800;
+    font-size: 14px;
+    color: #6b5a48;
+    margin-bottom: 12px;
+}
+
+pre {
+    background: #f0ebe3;
+    padding: 20px;
+    border-radius: 20px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #3a2c1f;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-x: auto;
+}
+
+/* ========== فئات مساعدة ========== */
+.hidden {
+    display: none;
+}
