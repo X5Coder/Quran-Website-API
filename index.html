@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>راديو القرآن | بث مباشر</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <!-- الإعدادات -->
+        <div class="settings-panel">
+            <button id="settingsBtn" class="settings-toggle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04Z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                الإعدادات
+            </button>
+            <div id="settingsContent" class="settings-content">
+                <div class="setting-item">
+                    <div class="setting-label">🔗 رابط API البث المباشر</div>
+                    <div class="setting-link">
+                        <a href="#" id="apiLink" target="_blank" class="link-url"></a>
+                        <button class="copy-btn" data-target="apiUrl">📋 نسخ</button>
+                    </div>
+                    <input type="text" id="apiUrl" class="hidden-input" readonly>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">📖 رابط قائمة السور والأصوات</div>
+                    <div class="setting-link">
+                        <a href="https://jsonkeeper.com/b/P07SJ" target="_blank" class="link-url">jsonkeeper.com/b/P07SJ</a>
+                        <button class="copy-btn" data-target="surahListUrl">📋 نسخ</button>
+                    </div>
+                    <input type="text" id="surahListUrl" class="hidden-input" readonly value="https://jsonkeeper.com/b/P07SJ">
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">🐙 مستودع المشروع على GitHub</div>
+                    <div class="setting-link">
+                        <a href="https://github.com/X5Coder/Quran-Website-API" target="_blank" class="link-url">github.com/X5Coder/Quran-Website-API</a>
+                        <button class="copy-btn" data-target="githubUrl">📋 نسخ</button>
+                    </div>
+                    <input type="text" id="githubUrl" class="hidden-input" readonly value="https://github.com/X5Coder/Quran-Website-API">
+                </div>
+            </div>
+        </div>
+
+        <!-- شاشة تحميل -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">جاري تحميل البث المباشر...</div>
+        </div>
+        
+        <!-- المحتوى الرئيسي -->
+        <div id="content" class="hidden">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">📖</div>
+                    <div class="info-label">السورة</div>
+                    <div class="info-value" id="surah">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🎙️</div>
+                    <div class="info-label">القارئ</div>
+                    <div class="info-value" id="reader">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🔢</div>
+                    <div class="info-label">رقم السورة</div>
+                    <div class="info-value" id="surahNum">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⏱️</div>
+                    <div class="info-label">التقدم</div>
+                    <div class="info-value" id="currentTime">00:00</div>
+                    <div class="info-value small" id="duration">/ 00:00</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="playBtn" class="control-btn play-btn">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+                    </svg>
+                    تشغيل
+                </button>
+                <button id="muteBtn" class="control-btn mute-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    </svg>
+                    كتم
+                </button>
+            </div>
+            
+            <div class="json-section">
+                <div class="json-header">📋 البيانات الخام</div>
+                <pre id="jsonData"></pre>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
